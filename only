@@ -1,5 +1,5 @@
 git init
-git remote add origin https://github.com/seuuser/GraceTone-Connect.git
+git remote add origin https://github.com/MessP13/GraceTone-Connect.git
 git add .
 git commit -m "First commit GraceTone"
 git push -u origin main
