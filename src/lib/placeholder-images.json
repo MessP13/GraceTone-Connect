@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "gt1",
+      "description": "Sessão vocal emocionante",
+      "imageUrl": "https://picsum.photos/seed/gt1/600/400",
+      "imageHint": "gospel singer"
+    },
+    {
+      "id": "gt2",
+      "description": "Estúdio de última geração",
+      "imageUrl": "https://picsum.photos/seed/gt2/600/400",
+      "imageHint": "recording studio"
+    },
+    {
+      "id": "gt3",
+      "description": "Apresentação de coral ungido",
+      "imageUrl": "https://picsum.photos/seed/gt3/600/400",
+      "imageHint": "choir singing"
+    },
+    {
+      "id": "gt4",
+      "description": "Banda de louvor e adoração",
+      "imageUrl": "https://picsum.photos/seed/gt4/600/400",
+      "imageHint": "praise band"
+    },
+    {
+      "id": "hero",
+      "description": "Adoração gospel inspiradora",
+      "imageUrl": "https://picsum.photos/seed/hero/1280/720",
+      "imageHint": "gospel worship"
+    }
+  ]
+}
