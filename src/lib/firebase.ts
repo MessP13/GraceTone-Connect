@@ -3,8 +3,8 @@ import { initializeApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-import { genkit } from 'genkit';
-import { gemini25Flash, googleAI } from '@genkit-ai/googleai';
+import { genkit } from "genkit";
+import { googleAI } from "@genkit-ai/googleai";
 
 // --- Firebase ---
 const firebaseConfig = {
@@ -23,7 +23,9 @@ export const db = getFirestore(app);
 
 // --- Genkit / Google AI ---
 if (!process.env.GOOGLE_GENAI_API_KEY) {
-  throw new Error("A variável de ambiente GOOGLE_GENAI_API_KEY não está definida.");
+  throw new Error(
+    "A variável de ambiente GOOGLE_GENAI_API_KEY não está definida."
+  );
 }
 
 export const ai = genkit({
@@ -32,11 +34,14 @@ export const ai = genkit({
       apiKey: process.env.GOOGLE_GENAI_API_KEY,
     }),
   ],
-  model: gemini25Flash,
+  model: "googleai/gemini-1.5-flash", // modelo válido
 });
 
 // --- Exemplo de fluxo reutilizável ---
-export const helloFlow = ai.defineFlow('helloFlow', async (name: string) => {
-  const { text } = await ai.generate(`Hello Gemini, my name is ${name}`);
-  return text;
+export const helloFlow = ai.defineFlow("helloFlow", async (name: string) => {
+  const result = await ai.generate({
+    model: "googleai/gemini-1.5-flash",
+    prompt: `Hello Gemini, my name is ${name}`,
+  });
+  return result.output_text; // saída de texto limpa
 });
