@@ -1,12 +1,7 @@
 'use server';
-/**
- * @fileOverview Fluxo para resumir os detalhes de um pedido de música.
- */
-
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// ✅ Schema de entrada
 const SummarizeOrderInputSchema = z.object({
   artist: z.string().describe('O nome do artista.'),
   serviceType: z.string().describe('O tipo de serviço solicitado.'),
@@ -17,13 +12,15 @@ const SummarizeOrderInputSchema = z.object({
 });
 export type SummarizeOrderInput = z.infer<typeof SummarizeOrderInputSchema>;
 
-// ✅ Schema de saída
 const SummarizeOrderOutputSchema = z.object({
   summary: z.string().describe('O resumo gerado para a equipa de produção.'),
 });
 export type SummarizeOrderOutput = z.infer<typeof SummarizeOrderOutputSchema>;
 
-// ✅ Prompt
+export async function summarizeOrder(input: SummarizeOrderInput): Promise<SummarizeOrderOutput> {
+  return summarizeOrderFlow(input);
+}
+
 const prompt = ai.definePrompt({
   name: 'summarizeOrderPrompt',
   input: { schema: SummarizeOrderInputSchema },
@@ -45,10 +42,10 @@ Com base nisso, gere um resumo que inclua:
 - **Possíveis Desafios:** Identifique quaisquer ambiguidades ou desafios técnicos.
 - **Prioridade Sugerida:** Sugira uma prioridade (Baixa, Média, Alta).
 
-O resumo deve ser curto, direto e prático, mas sem omitir pontos essenciais. Retorne APENAS o texto do resumo em markdown.`,
+O resumo deve ser curto, direto e prático, mas sem omitir detalhes importantes. Retorne APENAS o texto da biografia.
+`,
 });
 
-// ✅ Flow
 const summarizeOrderFlow = ai.defineFlow(
   {
     name: 'summarizeOrderFlow',
@@ -60,10 +57,3 @@ const summarizeOrderFlow = ai.defineFlow(
     return output!;
   }
 );
-
-// ✅ Função exportada
-export async function summarizeOrder(
-  input: SummarizeOrderInput
-): Promise<SummarizeOrderOutput> {
-  return summarizeOrderFlow(input);
-}
