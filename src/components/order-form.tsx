@@ -39,6 +39,8 @@ export function OrderForm() {
       description: "",
       style: "",
       rhythm: "",
+      serviceType: "creation",
+      objective: "personal",
     },
   });
 
@@ -47,4 +49,61 @@ export function OrderForm() {
       form.reset({
         name: userProfile.artistName || "",
         contact: userProfile.email || "",
-        style: userProfile.preferredS
+        style: userProfile.preferredStyle || "",
+        rhythm: userProfile.preferredRhythm || "",
+      });
+    }
+  }, [userProfile]);
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    try {
+      await addDoc(collection(db, "orders"), {
+        ...data,
+        userId: user?.uid,
+        createdAt: serverTimestamp(),
+      });
+      toast({ title: "Order sent successfully!" });
+      form.reset();
+      router.push("/thank-you");
+    } catch (error) {
+      console.error(error);
+      toast({ title: "Error sending order.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <Input {...form.register("name")} placeholder="Your Name" />
+      <Input {...form.register("contact")} placeholder="Email or Phone" />
+      
+      <Select {...form.register("serviceType")}>
+        <SelectTrigger>
+          <SelectValue placeholder="Service Type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="creation">Creation</SelectItem>
+          <SelectItem value="recreation">Recreation</SelectItem>
+          <SelectItem value="instrumental">Instrumental</SelectItem>
+          <SelectItem value="production">Production</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Textarea {...form.register("description")} placeholder="Description" />
+      <Input {...form.register("style")} placeholder="Style" />
+      <Input {...form.register("rhythm")} placeholder="Rhythm" />
+
+      <RadioGroup {...form.register("objective")}>
+        <RadioGroupItem value="personal" label="Personal" />
+        <RadioGroupItem value="church" label="Church" />
+        <RadioGroupItem value="commercial" label="Commercial" />
+      </RadioGroup>
+
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Submitting..." : "Submit Order"}
+      </Button>
+    </form>
+  );
+}
