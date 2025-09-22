@@ -1,32 +1,20 @@
-'use server';
-
-import { NextRequest, NextResponse } from 'next/server';
+// src/app/api/generate-bio/route.ts
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { NextResponse } from 'next/server';
 
-const GenerateBioInputSchema = z.object({
-  artistName: z.string(),
-  preferredStyle: z.string(),
-  preferredRhythm: z.string(),
-});
-
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const input = GenerateBioInputSchema.parse(body);
+export async function POST(req: Request) {
+  const { artistName, preferredStyle, preferredRhythm } = await req.json();
 
   const prompt = ai.definePrompt({
     name: 'generateBioPrompt',
-    input: { schema: GenerateBioInputSchema },
-    output: { schema: z.object({ bio: z.string() }) },
     prompt: `Você é um especialista em marketing para músicos cristãos na GraceTone.
-Use as informações:
-Nome: {{{artistName}}}
-Estilo: {{{preferredStyle}}}
-Ritmo: {{{preferredRhythm}}}
-Gere apenas o texto da biografia.`,
+Use as seguintes informações:
+Nome do Artista: ${artistName}
+Estilo Musical: ${preferredStyle}
+Ritmo Preferido: ${preferredRhythm}
+Gere uma biografia curta e impactante (máx. 280 caracteres).`,
   });
 
-  const { output } = await prompt(input);
-
-  return NextResponse.json(output);
+  const { output } = await prompt({});
+  return NextResponse.json({ bio: output });
 }
