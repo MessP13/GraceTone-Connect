@@ -1,12 +1,7 @@
 'use server';
-/**
- * @fileOverview Fluxo para gerar biografias de artistas usando Genkit + GoogleAI.
- */
-
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
-// ✅ Schema de entrada
 const GenerateBioInputSchema = z.object({
   artistName: z.string().describe('O nome artístico do músico ou banda.'),
   preferredStyle: z.string().describe('O estilo musical principal do artista.'),
@@ -14,13 +9,15 @@ const GenerateBioInputSchema = z.object({
 });
 export type GenerateBioInput = z.infer<typeof GenerateBioInputSchema>;
 
-// ✅ Schema de saída
 const GenerateBioOutputSchema = z.object({
   bio: z.string().describe('A biografia gerada para o artista.'),
 });
 export type GenerateBioOutput = z.infer<typeof GenerateBioOutputSchema>;
 
-// ✅ Prompt definido com Genkit
+export async function generateBio(input: GenerateBioInput): Promise<GenerateBioOutput> {
+  return generateBioFlow(input);
+}
+
 const prompt = ai.definePrompt({
   name: 'generateBioPrompt',
   input: { schema: GenerateBioInputSchema },
@@ -35,10 +32,10 @@ Ritmo Preferido: {{{preferredRhythm}}}
 
 A biografia deve ser inspiradora, profissional e adequada para um público gospel.
 Concentre-se em transmitir a paixão e o ministério do artista através da música.
-Gere apenas o texto da biografia. E gere o Texto na primeira pessoa`,
+Gere apenas o texto da biografia.
+`,
 });
 
-// ✅ Flow principal
 const generateBioFlow = ai.defineFlow(
   {
     name: 'generateBioFlow',
@@ -50,10 +47,3 @@ const generateBioFlow = ai.defineFlow(
     return output!;
   }
 );
-
-// ✅ Função exportada
-export async function generateBio(
-  input: GenerateBioInput
-): Promise<GenerateBioOutput> {
-  return generateBioFlow(input);
-}
