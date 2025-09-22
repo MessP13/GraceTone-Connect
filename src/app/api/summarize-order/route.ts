@@ -1,40 +1,23 @@
-'use server';
-
-import { NextRequest, NextResponse } from 'next/server';
+// src/app/api/summarize-order/route.ts
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { NextResponse } from 'next/server';
 
-const SummarizeOrderInputSchema = z.object({
-  artist: z.string(),
-  serviceType: z.string(),
-  style: z.string(),
-  rhythm: z.string(),
-  objective: z.string(),
-  description: z.string(),
-});
-
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const input = SummarizeOrderInputSchema.parse(body);
+export async function POST(req: Request) {
+  const { artist, serviceType, style, rhythm, objective, description } = await req.json();
 
   const prompt = ai.definePrompt({
     name: 'summarizeOrderPrompt',
-    input: { schema: SummarizeOrderInputSchema },
-    output: { schema: z.object({ summary: z.string() }) },
-    prompt: `Você é um produtor musical experiente na GraceTone, especialista em música gospel.
+    prompt: `Você é um produtor musical experiente na GraceTone.
 Analise o pedido:
-- Artista: {{{artist}}}
-- Tipo de Serviço: {{{serviceType}}}
-- Estilo: {{{style}}}
-- Ritmo: {{{rhythm}}}
-- Objetivo: {{{objective}}}
-- Descrição: {{{description}}}
-
-Gere um resumo curto em tópicos (markdown) incluindo pontos-chave, sugestões de produção, possíveis desafios e prioridade.
-Retorne apenas o texto do resumo.`,
+- Artista: ${artist}
+- Tipo de Serviço: ${serviceType}
+- Estilo: ${style}
+- Ritmo: ${rhythm}
+- Objetivo: ${objective}
+- Descrição: ${description}
+Gere um resumo conciso em markdown com pontos-chave, sugestões, desafios e prioridade.`,
   });
 
-  const { output } = await prompt(input);
-
-  return NextResponse.json(output);
+  const { output } = await prompt({});
+  return NextResponse.json({ summary: output });
 }
