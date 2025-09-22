@@ -30,7 +30,7 @@ Nome do Artista: {{{artistName}}}
 Estilo Musical: {{{preferredStyle}}}
 Ritmo Preferido: {{{preferredRhythm}}}
 
-A biografia deve ser inspiradora, profissional e adequada para um público gospel.
+A biografia deve ser na primeira pessoa, inspiradora, profissional e adequada para um público gospel.
 Concentre-se em transmitir a paixão e o ministério do artista através da música.
 Gere apenas o texto da biografia.
 `,
