@@ -13,13 +13,16 @@
   "categories": ["music", "productivity"],
   "icons": [
     {
-      "src": "https://gracetone-connect.netlify.app/favicon.ico",
-      "type": "image/x-icon",
-      "sizes": "16x16"
+      "src": "/icons/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://gracetone-connect.netlify.app/favicon.ico",
-      "type": "image/x-icon"
+      "src": "/icons/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
@@ -36,14 +39,14 @@
       "short_name": "Pedido",
       "description": "Crie um novo pedido rapidamente",
       "url": "/order",
-      "icons": [{ "src": "/favicon.ico", "sizes": "96x96" }]
+      "icons": [{ "src": "/icons/icon192.png", "sizes": "192x192" }]
     },
     {
       "name": "Meu Perfil",
       "short_name": "Perfil",
       "description": "Acesse seu perfil",
       "url": "/profile",
-      "icons": [{ "src": "/favicon.ico", "sizes": "96x96" }]
+      "icons": [{ "src": "/icons/icon192.png", "sizes": "192x192" }]
     }
   ],
   "lang": "pt",
