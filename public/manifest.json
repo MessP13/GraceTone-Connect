@@ -3,12 +3,14 @@
   "description": "Criando Sons Divinos para o Seu Ministério\nAjuda você a se conectar com a GraceTone, e transformar os seus pensamentos em música.",
   "dir": "auto",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "name": "GraceTone Connect",
   "orientation": "any",
   "scope": "/",
   "short_name": "GT Connect",
   "start_url": "https://gracetone-connect.netlify.app/",
   "theme_color": "#d1a926",
+  "categories": ["music", "productivity"],
   "icons": [
     {
       "src": "https://gracetone-connect.netlify.app/favicon.ico",
@@ -26,6 +28,22 @@
       "sizes": "675x589",
       "type": "image/png",
       "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Novo Pedido",
+      "short_name": "Pedido",
+      "description": "Crie um novo pedido rapidamente",
+      "url": "/order",
+      "icons": [{ "src": "/favicon.ico", "sizes": "96x96" }]
+    },
+    {
+      "name": "Meu Perfil",
+      "short_name": "Perfil",
+      "description": "Acesse seu perfil",
+      "url": "/profile",
+      "icons": [{ "src": "/favicon.ico", "sizes": "96x96" }]
     }
   ],
   "lang": "pt",
